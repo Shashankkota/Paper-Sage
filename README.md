@@ -1,20 +1,57 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 🧠 PaperSage – AI-Powered Research Paper Auto-Reviewer
 
-# Run and deploy your AI Studio app
+**PaperSage** is an AI-driven tool that automatically reviews academic research papers before submission. It analyzes structure, originality, citation quality, and detects plagiarism — helping students and researchers submit better papers with confidence.
 
-This contains everything you need to run your app locally.
+> 🔍 Powered by **Google Gemini API**, **React + TypeScript frontend**, and a **Python FastAPI backend**.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1h4bMfZ5dXXu-J5gBTLMhK98Ze6QoK2XB
+---
 
-## Run Locally
+## ✅ Features
 
-**Prerequisites:**  Node.js
+| Feature                        | Description                                                                                                                 |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 📝 **AI Review Generator**     | Section-wise feedback (abstract, intro, methods, etc.) on clarity, coherence, and originality.                             |
+| 📊 **Originality Score**       | Summarizes novelty by comparing claims to known literature.                                                                |
+| 🔍 **Plagiarism Detection**    | Uses Gemini + semantic similarity to identify potentially copied or paraphrased content.                                   |
+| 📚 **Citation Checker**        | Flags missing, broken, or malformed citations with suggestions.                                                             |
+| 🗃 **Section Breakdown**       | Grades each section (Introduction, Methods, Results, Conclusion).                                                          |
+| 🧠 **Reviewer Personas**       | Optional reviewer styles: *strict, expert, friendly*.                                                                      |
+| 📄 **PDF & LaTeX Upload**      | Accepts text inputs                                                                                                        |
+| 🌐 **Web Interface**           | Simple and responsive React + TypeScript UI.                                                                               |
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🎯 Use Case
+
+Designed for:
+- 🧑‍🎓 Students writing theses or term papers  
+- 🧑‍🔬 Researchers preparing journal or conference submissions  
+- 🏫 Universities and academic writing centers  
+
+---
+
+## 🧱 Tech Stack
+
+| Layer        | Technology                                                             |
+| ------------ | ---------------------------------------------------------------------- |
+| Frontend     | React.js + TypeScript + Bootstrap                                      |
+| AI Engine    | Google Gemini Pro API                                                  |
+| PDF Parsing  | PyMuPDF (`fitz`) / `pdfminer.six`                                      |
+| Citation Parsing | Grobid / ScienceParse                                             |
+| Plagiarism   | Gemini + Semantic Similarity + Web Search                              |
+| File Storage | Local file system / Firebase                                           |
+| Deployment   | Render / Railway / Google Cloud Run                                    |
+
+---
+
+## ⚙️ How It Works
+
+```mermaid
+graph TD
+    A[User Uploads PDF/LaTeX] --> B[Backend extracts text and segments by section]
+    B --> C[Gemini analyzes each section]
+    B --> D[Citation module parses references]
+    C --> E[Plagiarism module checks for similarity]
+    D --> E
+    E --> F[Generate downloadable AI Review Report]
+
