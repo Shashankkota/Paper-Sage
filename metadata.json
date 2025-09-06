@@ -1,0 +1,5 @@
+{
+  "name": "PaperSage: AI Research Paper Auto-Reviewer",
+  "description": "An AI tool that automatically reviews academic research papers. It provides feedback on originality, structure, clarity, formatting, citations, and performs plagiarism detection using the Google Gemini API.",
+  "requestFramePermissions": []
+}
