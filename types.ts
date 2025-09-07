@@ -5,6 +5,17 @@ export interface SectionReview {
   suggestions: string[];
 }
 
+export interface AiFlaggedPassage {
+  passage: string;
+  reason: string;
+  confidence: 'High' | 'Medium' | 'Low';
+}
+
+export interface AiContentAnalysis {
+  estimatedPercentage: number;
+  flaggedPassages: AiFlaggedPassage[];
+}
+
 export interface ReviewResult {
   overallScore: number;
   verdict: string;
@@ -20,7 +31,7 @@ export interface ReviewResult {
     status: 'Good' | 'Needs Improvement';
     comment: string;
   };
-  aiContentPercentage: number;
+  aiContentAnalysis: AiContentAnalysis;
   sectionReviews: SectionReview[];
 }
 

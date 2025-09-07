@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ReviewResult, SectionReview } from '../types';
+import type { ReviewResult, SectionReview, AiContentAnalysis } from '../types';
 import { CheckCircleIcon, ExclamationTriangleIcon, InformationCircleIcon, LightBulbIcon } from './icons';
 
 interface ReviewReportProps {
@@ -59,6 +59,53 @@ const PlagiarismCard: React.FC<{ status: string; details: string }> = ({ status,
   );
 };
 
+const getConfidenceColor = (confidence: 'High' | 'Medium' | 'Low') => {
+  switch (confidence) {
+    case 'High':
+      return 'font-bold text-red-600';
+    case 'Medium':
+      return 'font-bold text-yellow-600';
+    case 'Low':
+      return 'font-bold text-gray-600';
+    default:
+      return 'font-bold';
+  }
+};
+
+const AiAnalysisCard: React.FC<{ analysis: AiContentAnalysis }> = ({ analysis }) => {
+  return (
+      <div className="bg-purple-50 text-purple-800 p-4 rounded-lg">
+          <h3 className="font-semibold text-purple-900">AI Content Analysis</h3>
+          <p className="text-sm mt-1 text-purple-800">
+              Estimated <span className="font-bold text-lg">{analysis.estimatedPercentage}%</span> AI-generated content detected.
+          </p>
+
+          {analysis.flaggedPassages && analysis.flaggedPassages.length > 0 && (
+              <div className="mt-4">
+                  <h4 className="font-semibold text-sm text-purple-900 mb-2">Potentially AI-Generated Passages:</h4>
+                  <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar-purple">
+                      {analysis.flaggedPassages.map((item, index) => (
+                          <div key={index} className="bg-purple-100 p-3 rounded-md border border-purple-200">
+                              <blockquote className="border-l-4 border-purple-400 pl-3 text-sm text-purple-900 italic">
+                                  "{item.passage}"
+                              </blockquote>
+                              <p className="text-xs mt-2 text-purple-800"><strong className="font-medium">Reason:</strong> {item.reason}</p>
+                              <p className="text-xs mt-1 text-purple-800">
+                                  <strong className="font-medium">Confidence:</strong>&nbsp;
+                                  <span className={getConfidenceColor(item.confidence)}>{item.confidence}</span>
+                              </p>
+                          </div>
+                      ))}
+                  </div>
+              </div>
+          )}
+
+          {(!analysis.flaggedPassages || analysis.flaggedPassages.length === 0) && (
+               <p className="text-sm mt-3 text-purple-700">No specific passages were flagged as potentially AI-generated.</p>
+          )}
+      </div>
+  );
+};
 
 export const ReviewReport: React.FC<ReviewReportProps> = ({ result }) => {
   return (
@@ -78,10 +125,8 @@ export const ReviewReport: React.FC<ReviewReportProps> = ({ result }) => {
            <p className="text-sm mt-1">{result.citations.comment}</p>
         </div>
 
-        <div className="bg-purple-50 text-purple-800 p-4 rounded-lg">
-           <h3 className="font-semibold">AI Content Detector</h3>
-           <p className="text-sm mt-1">Estimated <span className="font-bold">{result.aiContentPercentage}%</span> AI-generated content detected.</p>
-        </div>
+        <AiAnalysisCard analysis={result.aiContentAnalysis} />
+
       </div>
       
       <div>
